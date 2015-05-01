@@ -23,4 +23,9 @@
 #define		WINDOW_TITLE		"ClannadMix"
 
 
+
+//内联函数
+#define		INLINE				inline
+
+
 #endif /* SRC_DEF_H_ */

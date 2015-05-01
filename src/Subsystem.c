@@ -21,19 +21,20 @@
 
 #ifdef	USE_SDL_
 //SDL为了跨大部分的平台
+
 #include		<SDL.h>
 
 #include		<stdio.h>
 #include		<stdlib.h>
 
 
-
-typedef	struct{
-	SDL_Window			*window;			//只能存在一个
-	SDL_Renderer		*renderer;		//只能存在一个
-}Clannad_Internal;
+#include		"platform/sSDL.h"
 
 
+//typedef	struct{
+//	SDL_Window			*window;			//只能存在一个
+//	SDL_Renderer		*renderer;		//只能存在一个
+//}Clannad_Internal;
 
 int		Clannad_Init();
 int		Clannad_Loop();
@@ -113,6 +114,7 @@ int		Clannad_Init(){
 
 	//正确返回
 	((Clannad_Internal*)(clannad->Internal))->window
+
 			=	window;
 	((Clannad_Internal*)(clannad->Internal))->renderer
 			=	renderer;
@@ -210,7 +212,7 @@ int		Clannad_Loop(Clannad *clannad_data){
 				}
 #endif
 
-				//SDL_Delay(wait_ticks);
+				SDL_Delay(wait_ticks);
 				//为了加快速度而牺牲一些存储
 				state->current_ticks	=	SDL_GetTicks();
 				state->last_ticks		=	state->current_ticks;
@@ -324,11 +326,7 @@ typedef		struct{
 	SDL_Texture		*texture;
 }Clannad_BMP;
 
-typedef		struct{
-	int		x,y;
-	int		w,h;
-}cRect;
-
+//这个实现复杂了,废弃
 typedef		struct{
 	Clannad_BMP		bmp;
 	cRect				srcRect;

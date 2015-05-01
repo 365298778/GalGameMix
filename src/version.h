@@ -28,7 +28,11 @@
 #define		USE_SDL_
 
 //测试代码
-#define		TEST_
+//一些简单的特效
+//#define		TEST_
+//一些库
+#define		DEBUG_TEST_
+#define		TEST_2_
 
 
 #endif /* SRC_VERSION_H_ */

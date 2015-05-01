@@ -23,6 +23,13 @@
 
 //============================================================================================================================
 //类型定义
+
+
+typedef		struct{
+	int		x,y;
+	int		w,h;
+}cRect;
+
 typedef	struct{
 	u32			end_flag;
 	u32			current_ticks;
@@ -61,6 +68,15 @@ typedef	struct Clannad{
 }Clannad;
 
 
+
+typedef	struct{
+	void		*internal;
+	void		*dataptr;
+	int			w;
+	int			h;
+}CBMP;
+
+
 typedef struct{
 	void*		(*Init)();
 	void*		(*InitFile)(Clannad*,const char*);
@@ -71,6 +87,7 @@ typedef struct{
 }BMP_func;
 
 
+
 typedef struct{
 	BMP_func	bmp_func;
 	int			(*DrawSprite)(Clannad*,void*sprite);
@@ -79,12 +96,22 @@ typedef struct{
 
 
 //============================================================================================================================
-//申明一些外部变量
+//声明一些外部变量
 extern		Clannad			*clannad;
 extern 		BMP_func		bmp_func;
 extern		Sprite_func	sprite_func;
 
 //============================================================================================================================
 
+
+
+//============================================================================================================================
+//声明一些外部函数
+CBMP		*CBMP_Load		(Clannad*c,const char*filename);
+void		CBMP_Free		(CBMP*cbmp);
+int			CBMP_Draw		(CBMP*cbmp,Clannad*c,cRect *src_rect,cRect *dst_rect);
+int			CBMP_Draws		(CBMP*cbmp,Clannad*c,cRect*src_rect,cRect*dst_rect,int count);
+int			CBMP_DrawsEx	(CBMP*cbmp,Clannad*c,cRect**src_rect,cRect**dst_rect,int count);
+int			CBMP_SetAlpha	(CBMP*cbmp,u8 alpha);
 
 #endif /* SRC_SUBSYSTEM_H_ */

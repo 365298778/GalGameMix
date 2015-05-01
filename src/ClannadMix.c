@@ -90,6 +90,8 @@
 #include	"Subsystem.h"
 
 
+
+
 #ifdef	TEST_
 
 extern	int		MouseV[800][600];
@@ -186,6 +188,12 @@ static		int		closing(void*sender){
 }
 
 
+#endif	/*TEST_*/
+
+
+#ifdef		DEBUG_TEST_
+//测试头文件
+#include	"test/Test.h"
 #endif
 
 
@@ -193,8 +201,17 @@ int		main(int c,char**v)
 {
 	//test();
 	clannad->Init();
+#ifdef		TEST_
 	clannad->RenderUpdate		=	render_update;		//渲染更新
 	clannad->Closing			=	(void*)closing;			//关闭时间
+#else
+#ifdef		DEBUG_TEST_
+	clannad->RenderUpdate		=	test_render_update;
+	clannad->Closing			=	test_closing;
+	clannad->Update				=	test_update;
+#endif
+#endif		/*TEST_*/
+
 	clannad->Loop(clannad);
 	clannad->Close();
 	return 0;
