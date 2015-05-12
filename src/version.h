@@ -18,7 +18,7 @@
 #define SRC_VERSION_H_
 
 
-#define		CLANNAD_MIX_V_0_1_	"0.1"
+#define		GGMIX_V_0_1_	"0.1"
 
 
 
@@ -33,6 +33,8 @@
 //一些库
 #define		DEBUG_TEST_
 #define		TEST_2_
+
+#define		TEST_LUA_
 
 
 #endif /* SRC_VERSION_H_ */

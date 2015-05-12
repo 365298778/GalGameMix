@@ -37,7 +37,7 @@ typedef	struct{
 typedef	struct{
 	SDL_Window			*window;			//只能存在一个
 	SDL_Renderer		*renderer;		//只能存在一个
-}Clannad_Internal;
+}GGMix_Internal;
 
 
 

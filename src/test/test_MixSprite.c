@@ -69,7 +69,7 @@ int			test_update_effect(MixSprite*sender){
 }
 
 
-int			test_render_update(Clannad*sender){
+int			test_render_update(GGMix*sender){
 	if(!inited){
 		Test_internal		*ti;
 		int					x,y;
@@ -101,11 +101,11 @@ int			test_render_update(Clannad*sender){
 }
 
 
-int			test_update(Clannad*sender){
+int			test_update(GGMix*sender){
 	MixSpriteUpdate(sprite);
 	return 0;
 }
-int			test_closing(Clannad*sender){
+int			test_closing(GGMix*sender){
 	if(sprite)
 	{
 		MixSprite_clean(sprite);

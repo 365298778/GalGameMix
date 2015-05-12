@@ -42,7 +42,7 @@ typedef	struct{
 typedef	struct{
 	MixRenderFunc		*func;
 	char				*file_name;			//这个不是很必要的,但对于新手来说,很好用
-	Clannad				*clannad;
+	GGMix				*ggmix;
 	CBMP				*bmp;
 	//int					priority;			//默认是0,当值越大,远离角色越远,(0在最高端)
 	void*				Internal;
@@ -60,7 +60,7 @@ extern		int		MixSprite_render	(MixSprite*sprite);
 extern		int		MixSprite_init		(MixSprite*sprite);
 
 extern	void	 		Mixsprite_inifunc		(MixRenderFunc*func);
-extern	MixSprite*		MixSpriteLoadFile		(Clannad*c,const char*filename);
+extern	MixSprite*		MixSpriteLoadFile		(GGMix*c,const char*filename);
 extern	void			MixSpriteSetUpdate	(MixSprite*sprite,int (*update_func)(MixSprite*));
 extern	void			MixSpriteRender		(MixSprite*sprite);
 extern	void			MixSpriteUpdate		(MixSprite*sprite);

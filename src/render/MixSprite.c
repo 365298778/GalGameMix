@@ -23,7 +23,7 @@ int		MixSprite_init(MixSprite*sprite){
 		if(sprite->file_name){
 			if(sprite->bmp)
 				CBMP_Free(sprite->bmp);
-			sprite->bmp		=	CBMP_Load(sprite->clannad,sprite->file_name);
+			sprite->bmp		=	CBMP_Load(sprite->ggmix,sprite->file_name);
 			if(!sprite->bmp)
 				return -1;
 		}
@@ -46,10 +46,10 @@ int		MixSprite_render(MixSprite*sprite){
 	if(sprite){
 		if(sprite->rectsCount)
 		{
-			result	=	CBMP_Draws(sprite->bmp,sprite->clannad,sprite->srcRect,sprite->dstRect,sprite->rectsCount);
+			result	=	CBMP_Draws(sprite->bmp,sprite->ggmix,sprite->srcRect,sprite->dstRect,sprite->rectsCount);
 		}
 		else{
-			result	=	CBMP_Draw(sprite->bmp,sprite->clannad,sprite->srcRect,sprite->dstRect);
+			result	=	CBMP_Draw(sprite->bmp,sprite->ggmix,sprite->srcRect,sprite->dstRect);
 		}
 	}
 	return	result;

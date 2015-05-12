@@ -40,7 +40,7 @@ typedef	struct{
 	u32			fc;
 	u32			last_second_ticks;
 	u32			second;
-}Clannad_state;
+}GGMix_state;
 
 
 
@@ -51,21 +51,21 @@ typedef struct{
 	u8			show_state;
 	u8			show_game_time;
 	u8			show_frame;
-}Clannad_config;
+}GGMix_config;
 
 
-typedef	struct Clannad{
-	Clannad_state		state;
-	Clannad_config		config;
+typedef	struct GGMix{
+	GGMix_state		state;
+	GGMix_config		config;
 	void				*Internal;
 	int					(*Init)();
 	int					(*Close)();
-	int					(*Closing)(struct Clannad *sender);
-	int					(*Loop)(struct Clannad *sender);
-	int					(*DrawBMPFile)(struct Clannad *render,const char*,int,int,int,int);
-	int					(*Update)(struct Clannad *sender);
-	int					(*RenderUpdate)(struct Clannad *sender);
-}Clannad;
+	int					(*Closing)(struct GGMix *sender);
+	int					(*Loop)(struct GGMix *sender);
+	int					(*DrawBMPFile)(struct GGMix *render,const char*,int,int,int,int);
+	int					(*Update)(struct GGMix *sender);
+	int					(*RenderUpdate)(struct GGMix *sender);
+}GGMix;
 
 
 
@@ -79,10 +79,10 @@ typedef	struct{
 
 typedef struct{
 	void*		(*Init)();
-	void*		(*InitFile)(Clannad*,const char*);
-	int			(*DrawBMP)(Clannad*,void*bmp,int,int,int,int,int,int,int,int);
-	int			(*DrawBMPAlpha)(Clannad*,void*bmp,int,int,int,int,int,int,int,int,u8);
-	int			(*DrawBMPfile)(Clannad*,const char*fname,int,int,int,int);
+	void*		(*InitFile)(GGMix*,const char*);
+	int			(*DrawBMP)(GGMix*,void*bmp,int,int,int,int,int,int,int,int);
+	int			(*DrawBMPAlpha)(GGMix*,void*bmp,int,int,int,int,int,int,int,int,u8);
+	int			(*DrawBMPfile)(GGMix*,const char*fname,int,int,int,int);
 	void		(*Free)(void*bmp);
 }BMP_func;
 
@@ -90,14 +90,14 @@ typedef struct{
 
 typedef struct{
 	BMP_func	bmp_func;
-	int			(*DrawSprite)(Clannad*,void*sprite);
+	int			(*DrawSprite)(GGMix*,void*sprite);
 }Sprite_func;
 //============================================================================================================================
 
 
 //============================================================================================================================
 //声明一些外部变量
-extern		Clannad			*clannad;
+extern		GGMix			*ggmix;
 extern 		BMP_func		bmp_func;
 extern		Sprite_func	sprite_func;
 
@@ -107,11 +107,11 @@ extern		Sprite_func	sprite_func;
 
 //============================================================================================================================
 //声明一些外部函数
-CBMP		*CBMP_Load		(Clannad*c,const char*filename);
+CBMP		*CBMP_Load		(GGMix*c,const char*filename);
 void		CBMP_Free		(CBMP*cbmp);
-int			CBMP_Draw		(CBMP*cbmp,Clannad*c,cRect *src_rect,cRect *dst_rect);
-int			CBMP_Draws		(CBMP*cbmp,Clannad*c,cRect*src_rect,cRect*dst_rect,int count);
-int			CBMP_DrawsEx	(CBMP*cbmp,Clannad*c,cRect**src_rect,cRect**dst_rect,int count);
+int			CBMP_Draw		(CBMP*cbmp,GGMix*c,cRect *src_rect,cRect *dst_rect);
+int			CBMP_Draws		(CBMP*cbmp,GGMix*c,cRect*src_rect,cRect*dst_rect,int count);
+int			CBMP_DrawsEx	(CBMP*cbmp,GGMix*c,cRect**src_rect,cRect**dst_rect,int count);
 int			CBMP_SetAlpha	(CBMP*cbmp,u8 alpha);
 
 #endif /* SRC_SUBSYSTEM_H_ */

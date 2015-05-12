@@ -32,7 +32,7 @@ void	 		Mixsprite_inifunc(MixRenderFunc*func){
 
 
 
- 	MixSprite*		MixSpriteLoadFile(Clannad*c,const char*filename){
+ 	MixSprite*		MixSpriteLoadFile(GGMix*c,const char*filename){
 	MixSprite			*mixsprite;
 	MixRenderFunc		*renderfunc;
 	renderfunc		=	calloc(1,sizeof(*renderfunc));
@@ -53,7 +53,7 @@ void	 		Mixsprite_inifunc(MixRenderFunc*func){
 	//mixsprite->file_name	=	filename;
 	mixsprite->file_name	=	calloc(1,strlen(filename)+1);
 	strcpy(mixsprite->file_name,filename);
-	mixsprite->clannad		=	c;
+	mixsprite->ggmix		=	c;
 
 	//初始化函数
 	Mixsprite_inifunc(renderfunc);

@@ -38,10 +38,10 @@ void	CBMP_Free(CBMP*cbmp){
 
 }
 
-CBMP	*CBMP_Load(Clannad*c,const char*filename){
+CBMP	*CBMP_Load(GGMix*c,const char*filename){
 	CBMP				*cbmp;
 	CBMP_Internal		*internal;
-	Clannad_Internal	*ci;
+	GGMix_Internal	*ci;
 	cbmp				=	SDL_calloc(1,sizeof(*cbmp));
 	internal			=	SDL_calloc(1,sizeof(*internal));
 	if(!cbmp||!internal){
@@ -85,8 +85,8 @@ CBMP	*CBMP_Load(Clannad*c,const char*filename){
 	return		cbmp;
 }
 
-int		CBMP_Draw(CBMP*cbmp,Clannad*c,cRect *src_rect,cRect *dst_rect){
-	Clannad_Internal	*ci;
+int		CBMP_Draw(CBMP*cbmp,GGMix*c,cRect *src_rect,cRect *dst_rect){
+	GGMix_Internal	*ci;
 	CBMP_Internal		*cbmpi;
 	ci		=	c->Internal;
 	cbmpi	=	cbmp->internal;
@@ -105,9 +105,9 @@ int		CBMP_Draw(CBMP*cbmp,Clannad*c,cRect *src_rect,cRect *dst_rect){
 }
 
 
-int		CBMP_Draws(CBMP*cbmp,Clannad*c,cRect*src_rects,cRect*dst_rects,int count){
+int		CBMP_Draws(CBMP*cbmp,GGMix*c,cRect*src_rects,cRect*dst_rects,int count){
 	int		result;
-	Clannad_Internal	*ci;
+	GGMix_Internal	*ci;
 	CBMP_Internal		*cbmpi;
 	result	=	0;
 	if(!c&&!c->Internal)
@@ -137,9 +137,9 @@ int		CBMP_Draws(CBMP*cbmp,Clannad*c,cRect*src_rects,cRect*dst_rects,int count){
 }
 
 
-int		CBMP_DrawsEx(CBMP*cbmp,Clannad*c,cRect**src_rects_ptr,cRect**dst_rects_ptr,int count){
+int		CBMP_DrawsEx(CBMP*cbmp,GGMix*c,cRect**src_rects_ptr,cRect**dst_rects_ptr,int count){
 	int		result;
-	Clannad_Internal	*ci;
+	GGMix_Internal	*ci;
 	CBMP_Internal		*cbmpi;
 	result	=	0;
 	if(!c&&!c->Internal)

@@ -34,14 +34,14 @@
 //typedef	struct{
 //	SDL_Window			*window;			//只能存在一个
 //	SDL_Renderer		*renderer;		//只能存在一个
-//}Clannad_Internal;
+//}GGMix_Internal;
 
-int		Clannad_Init();
-int		Clannad_Loop();
-int		Clannad_Close();
-int		Clannad_DrawBMPfile();
+int		GGMix_Init();
+int		GGMix_Loop();
+int		GGMix_Close();
+int		GGMix_DrawBMPfile();
 
-Clannad		_clannad	=	{
+GGMix		_ggmix	=	{
 		//state
 		{
 				0,
@@ -54,18 +54,18 @@ Clannad		_clannad	=	{
 				.show_game_time		=	1,		//显示游戏时间
 		},
 		0,			//internal
-		.Init	=	Clannad_Init,			//初始化处理
-		.Close	=	Clannad_Close,			//关闭处理
-		.Loop	=	Clannad_Loop,			//循环
-		.DrawBMPFile	=	Clannad_DrawBMPfile,		//绘制文件
+		.Init	=	GGMix_Init,			//初始化处理
+		.Close	=	GGMix_Close,			//关闭处理
+		.Loop	=	GGMix_Loop,			//循环
+		.DrawBMPFile	=	GGMix_DrawBMPfile,		//绘制文件
 		.Update	=	NULL,					//更新事件,只要把这个设置为自己的更新函数就行了
 
 };
 
-Clannad		*clannad	=	&_clannad;
+GGMix		*ggmix	=	&_ggmix;
 
 
-int		Clannad_Init(){
+int		GGMix_Init(){
 	//因为只有一个窗体,只能绑定一个渲染器
 	SDL_Window		*window;
 	SDL_Renderer	*renderer;
@@ -83,13 +83,13 @@ int		Clannad_Init(){
 			);
 
 	//如果内部是空,则申请内存,并初始化
-	if(!clannad->Internal){
-		clannad->Internal	=	SDL_calloc(
+	if(!ggmix->Internal){
+		ggmix->Internal	=	SDL_calloc(
 				1,
-				sizeof(Clannad_Internal)
+				sizeof(GGMix_Internal)
 				);
 		//初始化失败
-		if(!clannad->Internal){
+		if(!ggmix->Internal){
 			return 1;
 		}
 	}
@@ -113,29 +113,29 @@ int		Clannad_Init(){
 	}
 
 	//正确返回
-	((Clannad_Internal*)(clannad->Internal))->window
+	((GGMix_Internal*)(ggmix->Internal))->window
 
 			=	window;
-	((Clannad_Internal*)(clannad->Internal))->renderer
+	((GGMix_Internal*)(ggmix->Internal))->renderer
 			=	renderer;
 
 	return 0;
 }
 
 
-int		Clannad_Close(){
-	Clannad_Internal	*internal;
-	internal	=	clannad->Internal;
-	clannad->state.end_flag		=	1;
-	if(clannad->Closing)
-		clannad->Closing(clannad);
+int		GGMix_Close(){
+	GGMix_Internal	*internal;
+	internal	=	ggmix->Internal;
+	ggmix->state.end_flag		=	1;
+	if(ggmix->Closing)
+		ggmix->Closing(ggmix);
 	if(internal){
 		if(internal->renderer)
 			SDL_DestroyRenderer(internal->renderer);
 		if(internal->window)
 			SDL_DestroyWindow(internal->window);
 		SDL_free(internal);
-		clannad->Internal	=	NULL;
+		ggmix->Internal	=	NULL;
 	}
 	return 0;
 }
@@ -160,12 +160,12 @@ int		MouseV[800][600] = {0};
 #endif
 
 
-int		Clannad_Loop(Clannad *clannad_data){
-	Clannad_Internal	*internal;
-	Clannad_state		*state;
-	internal	=	clannad_data->Internal;
+int		GGMix_Loop(GGMix *ggmix_data){
+	GGMix_Internal	*internal;
+	GGMix_state		*state;
+	internal	=	ggmix_data->Internal;
 	if(internal){
-		state	=	&clannad_data->state;
+		state	=	&ggmix_data->state;
 		while(!state->end_flag){
 			//如果不是退出标识,则循环
 			SDL_Event	e;
@@ -177,8 +177,8 @@ int		Clannad_Loop(Clannad *clannad_data){
 			}
 
 			//处理更新函数
-			if(clannad_data->Update)
-				clannad_data->Update(clannad_data);
+			if(ggmix_data->Update)
+				ggmix_data->Update(ggmix_data);
 
 			c_ticks		=	SDL_GetTicks();		//获得时钟
 
@@ -222,18 +222,18 @@ int		Clannad_Loop(Clannad *clannad_data){
 			state->fcs	++;	//当前秒帧计数
 			state->fc	++;	//帧计数
 
-			if(clannad_data->config.show_state)
+			if(ggmix_data->config.show_state)
 			{
 				char	title[0x50];
 				char	*titleptr;
 				titleptr	=	title;
 				titleptr	+=	sprintf(title,"%-20s",WINDOW_TITLE);
-				if(clannad_data->config.show_frame)
+				if(ggmix_data->config.show_frame)
 				{
 					titleptr	+=	sprintf(titleptr,"fps:%04d%5s",state->fps,"");
 				}
 
-				if(clannad_data->config.show_game_time){
+				if(ggmix_data->config.show_game_time){
 					titleptr	+=	sprintf(titleptr,"game time:%04d",state->second);
 				}
 
@@ -259,8 +259,8 @@ int		Clannad_Loop(Clannad *clannad_data){
 			SDL_RenderClear(internal->renderer);
 
 			//处理更新函数
-			if(clannad_data->RenderUpdate)
-				clannad_data->RenderUpdate(clannad_data);
+			if(ggmix_data->RenderUpdate)
+				ggmix_data->RenderUpdate(ggmix_data);
 
 			SDL_SetRenderDrawColor(internal->renderer,0xff,0,0,0xff);
 #ifdef	TEST_
@@ -285,12 +285,12 @@ int		Clannad_Loop(Clannad *clannad_data){
 
 
 
-int		Clannad_DrawBMPfile(Clannad *clannad_data,const char *filename,int x,int y,int w,int h){
+int		GGMix_DrawBMPfile(GGMix *ggmix_data,const char *filename,int x,int y,int w,int h){
 	SDL_Texture		*texture;
 	SDL_Surface		*surface;
-	Clannad_Internal	*internal;
+	GGMix_Internal	*internal;
 	SDL_Rect			rect;
-	internal	=	clannad_data->Internal;
+	internal	=	ggmix_data->Internal;
 	if(!internal)
 		return -1;
 	if(!internal->renderer)
@@ -324,20 +324,20 @@ int		Clannad_DrawBMPfile(Clannad *clannad_data,const char *filename,int x,int y,
 typedef		struct{
 	SDL_Surface		*surface;
 	SDL_Texture		*texture;
-}Clannad_BMP;
+}GGMix_BMP;
 
 //这个实现复杂了,废弃
 typedef		struct{
-	Clannad_BMP		bmp;
+	GGMix_BMP		bmp;
 	cRect				srcRect;
 	cRect				dstRect;
-}Clannad_Sprite;
+}GGMix_Sprite;
 
 
-void		*CLoadBMP(Clannad*c,Clannad_BMP*bmp,const char*filename){
+void		*CLoadBMP(GGMix*c,GGMix_BMP*bmp,const char*filename){
 	SDL_Surface		*surface;
 	SDL_Texture		*texture;
-	Clannad_Internal	*internal;
+	GGMix_Internal	*internal;
 	internal	=	c->Internal;
 	if(internal||internal->renderer){
 		return NULL;
@@ -364,16 +364,16 @@ void		*CLoadBMP(Clannad*c,Clannad_BMP*bmp,const char*filename){
 }
 
 void		*CInitBMP(){
-	Clannad_BMP		*bmp;
+	GGMix_BMP		*bmp;
 	bmp		=	SDL_calloc(1,sizeof(*bmp));
 	return bmp;
 }
 
-void		*CInitBMPFile(Clannad*c,const char*filename){
+void		*CInitBMPFile(GGMix*c,const char*filename){
 	SDL_Surface		*surface;
 	SDL_Texture		*texture;
-	Clannad_Internal	*internal;
-	Clannad_BMP		*bmp;
+	GGMix_Internal	*internal;
+	GGMix_BMP		*bmp;
 
 	internal	=	c->Internal;
 	if(!internal||!internal->renderer){
@@ -393,7 +393,7 @@ void		*CInitBMPFile(Clannad*c,const char*filename){
 	//透明值
 	SDL_SetTextureBlendMode(texture,SDL_BLENDMODE_BLEND);
 
-	bmp	=	(Clannad_BMP*)SDL_calloc(1,sizeof(Clannad_BMP));
+	bmp	=	(GGMix_BMP*)SDL_calloc(1,sizeof(GGMix_BMP));
 	bmp->surface	=	surface;
 	bmp->texture	=	texture;
 	return bmp;
@@ -401,7 +401,7 @@ void		*CInitBMPFile(Clannad*c,const char*filename){
 
 
 
-static SDL_Texture		*getTexture(Clannad_BMP*bmp){
+static SDL_Texture		*getTexture(GGMix_BMP*bmp){
 	if(bmp){
 		return bmp->texture;
 	}
@@ -409,7 +409,7 @@ static SDL_Texture		*getTexture(Clannad_BMP*bmp){
 		return NULL;
 }
 
-static	SDL_Renderer	*getRenderer(Clannad_Internal*c){
+static	SDL_Renderer	*getRenderer(GGMix_Internal*c){
 	if(c){
 		return c->renderer;
 	}
@@ -418,7 +418,7 @@ static	SDL_Renderer	*getRenderer(Clannad_Internal*c){
 }
 
 
-int			CDrawBMP(Clannad*c,void*bmp,int srcx,int srcy,int srcw,int srch,int dstx,int dsty,int dstw,int dsth){
+int			CDrawBMP(GGMix*c,void*bmp,int srcx,int srcy,int srcw,int srch,int dstx,int dsty,int dstw,int dsth){
 	if(bmp){
 		SDL_Rect	src;
 		SDL_Rect	dst;
@@ -442,7 +442,7 @@ int			CDrawBMP(Clannad*c,void*bmp,int srcx,int srcy,int srcw,int srch,int dstx,i
 	return 0;
 }
 
-int			CDrawBMPAlpha(Clannad*c,void*bmp,int srcx,int srcy,int srcw,int srch,int dstx,int dsty,int dstw,int dsth,u8 alpha){
+int			CDrawBMPAlpha(GGMix*c,void*bmp,int srcx,int srcy,int srcw,int srch,int dstx,int dsty,int dstw,int dsth,u8 alpha){
 	if(bmp){
 		SDL_Rect	src;
 		SDL_Rect	dst;
@@ -477,7 +477,7 @@ int			CDrawBMPAlpha(Clannad*c,void*bmp,int srcx,int srcy,int srcw,int srch,int d
 
 void		CFreeBMP(void*bmp){
 	if(bmp){
-		Clannad_BMP	*b;
+		GGMix_BMP	*b;
 		b	=	bmp;
 		if(b->surface)
 			SDL_FreeSurface(b->surface);
@@ -489,7 +489,7 @@ void		CFreeBMP(void*bmp){
 
 void		CmFreeBMP(void*bmp){
 	if(bmp){
-		Clannad_BMP	*b;
+		GGMix_BMP	*b;
 		b	=	bmp;
 		if(b->surface)
 			SDL_FreeSurface(b->surface);
@@ -499,7 +499,7 @@ void		CmFreeBMP(void*bmp){
 }
 
 
-int			CDrawSprite(Clannad*c,Clannad_Sprite*sprinte){
+int			CDrawSprite(GGMix*c,GGMix_Sprite*sprinte){
 	if(sprinte){
 		return SDL_RenderCopy(
 				getRenderer(c->Internal),
@@ -513,21 +513,21 @@ int			CDrawSprite(Clannad*c,Clannad_Sprite*sprinte){
 }
 
 void		*CSpriteInit(){
-	Clannad_Sprite		*sprite;
+	GGMix_Sprite		*sprite;
 	sprite	=	SDL_calloc(1,sizeof(*sprite));
 	return sprite;
 }
 
 
-void		*CSpriteInitFile(Clannad*c,const char*fname){
-	Clannad_Sprite		*sprite;
+void		*CSpriteInitFile(GGMix*c,const char*fname){
+	GGMix_Sprite		*sprite;
 	sprite	=	CSpriteInit();
 	return	CLoadBMP(c,&sprite->bmp,fname);
 }
 
 void		CSpriteFree(void*sprite){
 	if(sprite){
-		Clannad_Sprite		*s;
+		GGMix_Sprite		*s;
 		s	=	sprite;
 		CmFreeBMP(&s->bmp);
 		SDL_free(sprite);
@@ -540,7 +540,7 @@ BMP_func	bmp_func	=	{
 		.Init		=	CInitBMP,
 		.InitFile	=	CInitBMPFile,
 		.DrawBMP	=	CDrawBMP,
-		.DrawBMPfile	=	Clannad_DrawBMPfile,
+		.DrawBMPfile	=	GGMix_DrawBMPfile,
 		.Free		=	CFreeBMP,
 		.DrawBMPAlpha	=	CDrawBMPAlpha,
 };
@@ -550,7 +550,7 @@ Sprite_func	sprite_func		=	{
 				.Init		=	CSpriteInit,
 				.InitFile	=	CSpriteInitFile,
 				.DrawBMP	=	CDrawBMP,
-				.DrawBMPfile	=	Clannad_DrawBMPfile,
+				.DrawBMPfile	=	GGMix_DrawBMPfile,
 				.Free		=	CSpriteFree,
 				.DrawBMPAlpha	=	CDrawBMPAlpha
 		},
